@@ -23,7 +23,7 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     private Spinner spinner;  // for spinner
 
     //SIGNUP ATTRIBUTES
-    private String firstName, lastName, email, contactNo, parentContactNo, sem, userName,passWord;
+    private String firstName, lastName, email, contactNo, parentContactNo, sem;
 
     private Button signupBtn, goToLoginBtn;
 
@@ -110,8 +110,8 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             // IF SIGNUP BTN IS CLICKED
             if (checkDetails()) {
                 // UPLOAD TO DATABASE
-                DatabaseReference new_child = ref.child(userName);
-                new_child.setValue(new newUser(firstName,lastName,email,contactNo,parentContactNo,sem,userName,passWord));
+                DatabaseReference new_child = ref.child(firstName +" "+ lastName);
+                new_child.setValue(new newUser(firstName,lastName,email,contactNo,parentContactNo,sem));
 
                 Toast.makeText(this, "Signed Up Successfully!!", Toast.LENGTH_SHORT).show();
 
@@ -123,27 +123,25 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
     }
     // CLASS TO STORE DATA OF THE NEW LOGIN
     static class newUser{
-        public String firstName, lastName, email, contactNo, parentContactNo, sem, username, password;
+        public String firstName, lastName, email, contactNo, parentContactNo, sem;
 
         public newUser(){
 
         }
-        public newUser(String firstName,String lastName,String email,String contactNo,String parentContactNo,String sem, String username, String password){
+        public newUser(String firstName,String lastName,String email,String contactNo,String parentContactNo,String sem){
             this.firstName=firstName;
             this.lastName=lastName;
             this.email=email;
             this.contactNo=contactNo;
             this.parentContactNo=parentContactNo;
             this.sem=sem;
-            this.username=username;
-            this.password=password;
         }
 
     }
 
     // CHECK ALL DETAILS ARE FILLED UP OR NOT
     private boolean checkDetails(){
-        firstname_input=findViewById(R.id.firstname_input);
+        firstname_input = findViewById(R.id.firstname_input);
         lastname_input = findViewById(R.id.lastname_input);
         email_input = findViewById(R.id.email_input);
         contact_input = findViewById(R.id.contact_input);
@@ -174,24 +172,17 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
             return false;
         }
 
-
-
         firstName = firstname_input.getText().toString().trim();
         lastName = lastname_input.getText().toString().trim();
         email = email_input.getText().toString().trim();
         contactNo = contact_input.getText().toString().trim();
         parentContactNo = parent_contact_input.getText().toString().trim();
-        userName=firstName+" "+lastName;
-        passWord=contactNo;
-
-
 
         String[] checkStrings = {firstName, lastName, email, contactNo, parentContactNo, sem};
         for (String detail : checkStrings){
             if (detail.isEmpty())
                 return false;
         }
-
 
         // EVERYTHING IS OK THEN REDIRECT TO LOGIN PAGE
         redirectToLogin();
@@ -201,14 +192,6 @@ public class SignupActivity extends AppCompatActivity implements AdapterView.OnI
 
     private void redirectToLogin(){
         Intent intent = new Intent(this, LoginActivity.class);
-
-        Toast.makeText(SignupActivity.this,"Username is 'FirstName LastName'",Toast.LENGTH_LONG).show();
-        Toast.makeText(SignupActivity.this,"Password is 'Contact Number'",Toast.LENGTH_LONG).show();
-
-        intent.putExtra("From","Sign up");
-        intent.putExtra("Username",userName);
-        intent.putExtra("Password",passWord);
-
         startActivity(intent);
     }
 

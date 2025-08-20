@@ -44,15 +44,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         goToSignupBtn = findViewById(R.id.gotosignup_btn);
         goToSignupBtn.setOnClickListener(this);
 
-//        FOR SETTING USERNAME AND PASSWORD AFTER SIGNING UP
-        if(Objects.equals(getIntent().getStringExtra("From"), "Sign up")){
 
-            Intent new_intent=getIntent();
-            EditText user_name=findViewById(R.id.login_email_input);
-            EditText pass_word=findViewById(R.id.login_password_input);
-            user_name.setText(new_intent.getStringExtra("Username"));
-            pass_word.setText(new_intent.getStringExtra("Password"));
-        }
     }
 
     // FOR BTN CLICKED
@@ -71,7 +63,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             // IF LOGIN BTN IS CLICKED
             if (verifyDetails()) {
-                Toast.makeText(this, "Logged Up Successfully!!", Toast.LENGTH_SHORT).show();
+                // CHECKING EMAIL AND PASSWORD FROM THE DATABASE
+
+                Toast.makeText(this, "Logged In Successfully!!", Toast.LENGTH_SHORT).show();
 
             } else {
                 Toast.makeText(this, "Login Failed!!", Toast.LENGTH_SHORT).show();
